@@ -1,31 +1,71 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet, SafeAreaView, View, ScrollView, ImageBackground, Text, useColorScheme, TouchableOpacity } from 'react-native';
+import Images from '@/constants/Images';
+import Colors from '@/constants/Colors';
+import { useRouter } from 'expo-router';
 
 export default function TabOneScreen() {
+  const colorScheme = useColorScheme() ?? 'dark';
+  const router = useRouter();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme].background }]}>
+      <ScrollView
+        style={[styles.scrollView, { backgroundColor: Colors[colorScheme].background }]}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+       /*  bounces={false} */
+      >
+        <TouchableOpacity style={styles.categoryView} activeOpacity={1} onPress={() => router.push('/Exercises')}>
+          <ImageBackground
+            source={Images.example1}
+            style={styles.image}
+            resizeMode='cover'
+          >
+            <Text style={[styles.title]}>Boxes</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.categoryView} activeOpacity={1} onPress={() => router.push('/_sitemap')}>
+          <ImageBackground
+            source={Images.example2}
+            style={styles.image}
+            resizeMode='cover'
+          >
+            <Text style={[styles.title]}>Breakfast</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  categoryView: {
+    width: 326,
+    height: 150,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginVertical: 16,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    borderRadius: 16,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '500',
+    padding: 16,
+    color: 'white',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  scrollView: {
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+  },
+  scrollContent: {
+    alignItems: 'center',
+    paddingBottom: 16,
   },
 });
